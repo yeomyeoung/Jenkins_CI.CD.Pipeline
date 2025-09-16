@@ -29,6 +29,7 @@
 - **구현 방식**: Jenkins Pipeline Script 기반 CI/CD
 
 <br>
+<br>
 
 # 1. Project Overview (프로젝트 개요)
 
@@ -39,6 +40,7 @@
   - Jenkins 컨테이너 환경에서 CI/CD 동작 검증
   - Ngrok, MobaXterm 등을 활용한 외부 접속 및 운영 실습
 
+<br>
 <br>
 
 # 2. Technology Stack (기술 스택)
@@ -60,6 +62,7 @@
 |--------|-------|
 | <img src="https://avatars.githubusercontent.com/u/22289824?s=200&v=4" width="70"/> | <img src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/ngrok.svg" width="70"/> |
 
+<br>
 <br>
 
 ## 3. CI/CD Pipeline Flow (파이프라인 흐름)
@@ -123,6 +126,7 @@ pipeline {
 ![Jenkins Pipeline Flow](https://i.postimg.cc/qR9zpFqn/mermaid-jenkins-Flow.png)
 
 <br>
+<br>
 
 ## 4. Pipeline Stage 설명
 
@@ -132,6 +136,7 @@ pipeline {
 | **Build JAR** | - Gradle Wrapper 실행 (`./gradlew`)<br>- Clean 빌드 후 `bootJar` 생성<br>- Test 스킵 옵션 적용 (`-x test`) | 빌드 실패 시 fallback으로 `build` 실행 |
 | **Archive**  | - `build/libs/*.jar` 산출물을 Jenkins 아티팩트로 보관<br>- Fingerprint 생성하여 추적 가능 | JAR 버전 관리 |
 
+<br>
 <br>
 
 # 5. 실행 결과 (Pipeline Result)
@@ -176,6 +181,7 @@ cd ~/jenkis-test/workspace/step03_teamArt/build/libs
 > 이후 새로운 코드 push 시 자동 build해 web 화면에 반영됨을 확인
 
 <br>
+<br>
 
 # 6. Troubleshooting (트러블슈팅)
 
@@ -195,8 +201,8 @@ cd ~/jenkis-test/workspace/step03_teamArt/build/libs
 
 <br>
 
----
 
+<br>
 <br>
 
 # 7. Next Steps (향후 확장)
