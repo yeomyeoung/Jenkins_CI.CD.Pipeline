@@ -50,7 +50,7 @@ GitHub 저장소 변경 사항을 자동으로 감지하고, **Gradle 빌드 →
 ## 3. CI/CD Pipeline Flow (파이프라인 흐름)
 
 본 프로젝트에서는 Jenkins Declarative Pipeline을 사용하여  
-**소스 코드 → 빌드(JAR) → 아카이빙** 까지 자동화했습니다.  
+**소스 코드 → 빌드(JAR) → 아카이빙** 까지 자동화 수행.  
 
 ### 📜 Jenkinsfile (Pipeline Script)
 
@@ -98,9 +98,9 @@ pipeline {
 
 | Stage 이름      | 기능 설명 |
 |-----------------|-----------|
-| 🟦 **Checkout** | GitHub 저장소(`main` 브랜치)에서 최신 코드를 가져오고, JDK 환경(`JAVA_HOME`)을 확인합니다. |
-| 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성합니다. <br> *(테스트는 `-x test` 옵션으로 제외)* |
-| 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적합니다. |
+| 🟦 **Checkout** | GitHub 저장소(`main` 브랜치)에서 최신 코드를 가져오고, JDK 환경(`JAVA_HOME`) 확인. |
+| 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성. <br> *(테스트는 `-x test` 옵션으로 제외)* |
+| 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적. |
 
 <br>
 
@@ -121,7 +121,68 @@ pipeline {
 
 # 5. 실행 결과 (Pipeline Result)
 
-### Stage View
-Jenkins 파이프라인이 **Checkout → Build JAR → Archive** 단계까지 정상적으로 동작했으며, 빌드 결과물 JAR 파일이 성공적으로 아카이빙되었습니다.
+### 5.1 Stage View
+Jenkins 파이프라인이 **Checkout → Build JAR → Archive** 단계까지 정상적으로 동작했으며,  
+빌드 결과물 JAR 파일이 성공적으로 아카이빙됨.
 
 <img src="https://i.postimg.cc/2SPJFF1G/image.png" alt="Jenkins Pipeline Stage View" width="700">
+
+<br>
+
+### 5.2 산출물 경로 (Artifact)
+빌드된 JAR 파일은 Jenkins 워크스페이스에 생성:
+
+```
+~/jenkis-test/workspace/step03_teamArt/build/libs/step05_GradleBuild-0.0.1-SNAPSHOT.jar
+```
+<br>
+
+### 5.3 실행 (Run on Ubuntu)
+> 8080 포트가 이미 점유 중이었으므로 **8081** 포트로 우회 실행
+
+```bash
+cd ~/jenkis-test/workspace/step03_teamArt/build/libs
+```
+
+### 5.4 실행 화면 (Running App)
+
+> Jenkins 빌드 산출물인 Jar 실행
+
+<img src="https://i.postimg.cc/50qtLSmQ/image.png" alt="App running on 8081" width="700">
+
+<br>
+
+# 6. Troubleshooting (트러블슈팅)
+
+## 6.1 JDK 버전 불일치
+- **문제**: Jenkins 컨테이너 기본 JDK는 `21`, Gradle Toolchain은 `17`을 요구 → 빌드 실패 발생  
+- **해결**: Jenkins 환경 변수 `JAVA_HOME`을 OpenJDK 17 경로로 지정 → 정상 빌드 완료  
+
+✅ **교훈**: CI/CD 환경에서는 JDK 버전 호환성 반드시 체크 필요
+
+<br>
+
+## 6.2 포트 충돌
+- **문제**: 기존 프로세스가 `8080` 포트를 점유 → 빌드된 JAR 실행 불가  
+- **해결**: 실행 포트를 `8081`로 변경 → 정상 구동 확인  
+
+✅ **교훈**: 포트 충돌은 자주 발생하는 이슈 → **프로세스 관리·모니터링 자동화 필요**
+
+<br>
+
+---
+
+<br>
+
+# 7. Next Steps (향후 확장)
+
+- **아티팩트 마운트 최적화**  
+  - 현재는 Jenkins의 전체 워크스페이스가 호스트와 공유되어 불필요한 파일까지 노출됨  
+  - 추후 개선 시, **JAR 파일만 Host에 마운트**되도록 경로를 세분화할 계획  
+
+<br>
+
+- **무중단 배포(Zero-Downtime) 실습**  
+  - Shell 스크립트 기반 트리거와 프로세스 교체 방식을 활용해  
+    배포 시 서비스 중단 없이 새로운 버전으로 전환하는 CI/CD 파이프라인 구성 예정  
+
