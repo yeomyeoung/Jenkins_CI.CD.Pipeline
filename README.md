@@ -33,12 +33,16 @@ GitHub 저장소 변경 사항을 자동으로 감지하고, **Gradle 빌드 →
 |--------|---------|-----------|
 | <img src="https://cdn.simpleicons.org/ubuntu" alt="Ubuntu" width="70"> | <img src="https://cdn.simpleicons.org/jenkins" alt="Jenkins" width="70"> | <img src="https://github.com/user-attachments/assets/b9ae3f4a-9b01-4e12-9806-12dc33bdbe8e" alt="MobaXterm" width="70"> |
 
+
 ## 2.2 Language & Build
 | Java 17 | Gradle |
 |---------|--------|
-| <img src="https://cdn.simpleicons.org/java" alt="Java" width="70"> | <img src="https://cdn.simpleicons.org/gradle" alt="Gradle" width="70"> |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="70"/> | <img src="https://cdn.simpleicons.org/gradle/02303A" width="70"/> |
+
 
 ## 2.3 Cooperation
 | GitHub | Ngrok |
 |--------|-------|
-| <img src="https://cdn.simpleicons.org/github" alt="GitHub" width="70"> | <img src="https://cdn.simpleicons.org/ngrok" alt="Ngrok" width="70"> |
+| <img src="https://avatars.githubusercontent.com/u/22289824?s=200&v=4" width="70"/> | <img src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/ngrok.svg" width="70"/> |
+
+
