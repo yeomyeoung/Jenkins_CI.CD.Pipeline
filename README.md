@@ -107,4 +107,21 @@ pipeline {
 ## 결과 화면
 ![Jenkins Pipeline Flow](https://i.postimg.cc/qR9zpFqn/mermaid-jenkins-Flow.png)
 
+<br>
 
+## 4. Pipeline Stage 설명
+
+| Stage 이름   | 주요 동작                                                                 | 비고 |
+|--------------|-------------------------------------------------------------------------|------|
+| **Checkout** | - GitHub 저장소에서 `main` 브랜치 소스 코드 가져오기<br>- Java 환경 변수 확인 (`java -version`) | Git 연동 테스트 |
+| **Build JAR** | - Gradle Wrapper 실행 (`./gradlew`)<br>- Clean 빌드 후 `bootJar` 생성<br>- Test 스킵 옵션 적용 (`-x test`) | 빌드 실패 시 fallback으로 `build` 실행 |
+| **Archive**  | - `build/libs/*.jar` 산출물을 Jenkins 아티팩트로 보관<br>- Fingerprint 생성하여 추적 가능 | JAR 버전 관리 |
+
+<br>
+
+# 5. 실행 결과 (Pipeline Result)
+
+### Stage View
+Jenkins 파이프라인이 **Checkout → Build JAR → Archive** 단계까지 정상적으로 동작했으며, 빌드 결과물 JAR 파일이 성공적으로 아카이빙되었습니다.
+
+<img src="https://i.postimg.cc/2SPJFF1G/image.png" alt="Jenkins Pipeline Stage View" width="700">
