@@ -152,13 +152,23 @@ cd ~/jenkis-test/workspace/step03_teamArt/build/libs
 
 <br>
 
+> 웹에서 localhost 접속
+
+<img src="https://i.postimg.cc/1RFjsY3K/image.png" alt="App running on 8081" width="700">
+
+<br>
+
+> 이후 새로운 코드 push 시 자동 build해 web 화면에 반영됨을 확인
+
+<br>
+
 # 6. Troubleshooting (트러블슈팅)
 
 ## 6.1 JDK 버전 불일치
 - **문제**: Jenkins 컨테이너 기본 JDK는 `21`, Gradle Toolchain은 `17`을 요구 → 빌드 실패 발생  
 - **해결**: Jenkins 환경 변수 `JAVA_HOME`을 OpenJDK 17 경로로 지정 → 정상 빌드 완료  
 
-✅ **교훈**: CI/CD 환경에서는 JDK 버전 호환성 반드시 체크 필요
+✅ **학습**: CI/CD 환경에서는 JDK 버전 호환성 반드시 체크 필요
 
 <br>
 
@@ -166,7 +176,7 @@ cd ~/jenkis-test/workspace/step03_teamArt/build/libs
 - **문제**: 기존 프로세스가 `8080` 포트를 점유 → 빌드된 JAR 실행 불가  
 - **해결**: 실행 포트를 `8081`로 변경 → 정상 구동 확인  
 
-✅ **교훈**: 포트 충돌은 자주 발생하는 이슈 → **프로세스 관리·모니터링 자동화 필요**
+✅ **학습**: 포트 충돌은 자주 발생하는 이슈 → **프로세스 관리·모니터링 자동화 필요**
 
 <br>
 
