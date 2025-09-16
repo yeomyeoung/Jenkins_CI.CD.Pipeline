@@ -1,4 +1,4 @@
-# Jenkins CI/CD Pipeline Exploration
+# Jenkins CI/CD Pipeline Lab
 Jenkins를 활용해 **CI/CD 파이프라인**을 직접 구성하고 테스트한 실습 프로젝트입니다.  
 GitHub 저장소 변경 사항을 자동으로 감지하고, **Gradle 빌드 → JAR 생성 → 아카이빙**까지  
 자동화되는 과정을 통해 Jenkins의 핵심 기능을 탐구했습니다.
@@ -44,5 +44,66 @@ GitHub 저장소 변경 사항을 자동으로 감지하고, **Gradle 빌드 →
 | GitHub | Ngrok |
 |--------|-------|
 | <img src="https://avatars.githubusercontent.com/u/22289824?s=200&v=4" width="70"/> | <img src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/ngrok.svg" width="70"/> |
+
+<br>
+
+## 3. CI/CD Pipeline Flow (파이프라인 흐름)
+
+본 프로젝트에서는 Jenkins Declarative Pipeline을 사용하여  
+**소스 코드 → 빌드(JAR) → 아카이빙** 까지 자동화했습니다.  
+
+### 📜 Jenkinsfile (Pipeline Script)
+
+```groovy
+pipeline {
+  agent any
+  environment {
+    JAVA_HOME = '/opt/java/openjdk'
+    PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    GITHUB_REPO  = 'https://github.com/yeomyeoung/jenkins.git'
+    BRANCH_NAME  = 'main'
+    PROJECT_PATH = '.'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git branch: "${BRANCH_NAME}", url: "${GITHUB_REPO}"
+        sh 'java -version && echo JAVA_HOME=$JAVA_HOME'
+      }
+    }
+
+    stage('Build JAR') {
+      steps {
+        sh '''
+          chmod +x gradlew || true
+          ./gradlew --version
+          ./gradlew clean bootJar -x test || ./gradlew clean build -x test
+        '''
+      }
+    }
+
+    stage('Archive') {
+      steps {
+        archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+      }
+    }
+  }
+}
+
+```
+<br>
+
+### 🔎 Stage 설명
+
+| Stage 이름      | 기능 설명 |
+|-----------------|-----------|
+| 🟦 **Checkout** | GitHub 저장소(`main` 브랜치)에서 최신 코드를 가져오고, JDK 환경(`JAVA_HOME`)을 확인합니다. |
+| 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성합니다. <br> *(테스트는 `-x test` 옵션으로 제외)* |
+| 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적합니다. |
+
+
+## 결과 화면
+![Jenkins Pipeline Flow](https://i.ibb.co/4wL3K5cn/mermaid-jenkins-Flow.png)
 
 
