@@ -91,7 +91,7 @@ pipeline {
       }
     }
 
-    stage('Build JAR') {
+  stage('Build JAR') {
       steps {
         sh '''
           chmod +x gradlew || true
@@ -101,7 +101,17 @@ pipeline {
       }
     }
 
-    stage('Archive') {
+  stage('Set Permissions') {
+      steps {
+        sh '''
+          echo "Applying chmod 755 to generated JAR files..."
+          chmod 755 build/libs/*.jar
+          ls -l build/libs/*.jar
+        '''
+      }
+    }
+    
+  stage('Archive') {
       steps {
         archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
       }
@@ -116,9 +126,10 @@ pipeline {
 
 | Stage 이름      | 기능 설명 |
 |-----------------|-----------|
-| 🟦 **Checkout** | GitHub 저장소(`main` 브랜치)에서 최신 코드를 가져오고, JDK 환경(`JAVA_HOME`) 확인. |
-| 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성. <br> *(테스트는 `-x test` 옵션으로 제외)* |
-| 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적. |
+| 🟦 **Checkout** | GitHub 저장소(`main` 브랜치)에서 최신 코드를 가져오고, JDK 환경(`JAVA_HOME`) 확인 |
+| 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성 <br> *(테스트는 `-x test` 옵션으로 제외)* |
+| 🟪 **Set Permission** | 빌드 후 생성된 JAR 파일에 실행 권한(`chmod 755`)을 자동으로 부여 |
+| 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적 |
 
 <br>
 
@@ -134,6 +145,7 @@ pipeline {
 |--------------|-------------------------------------------------------------------------|------|
 | **Checkout** | - GitHub 저장소에서 `main` 브랜치 소스 코드 가져오기<br>- Java 환경 변수 확인 (`java -version`) | Git 연동 테스트 |
 | **Build JAR** | - Gradle Wrapper 실행 (`./gradlew`)<br>- Clean 빌드 후 `bootJar` 생성<br>- Test 스킵 옵션 적용 (`-x test`) | 빌드 실패 시 fallback으로 `build` 실행 |
+| **Set Permission** | 빌드 후 생성된 JAR 파일에 실행 권한(`chmod 755`)을 자동으로 부여 | 실행 가능 상태 보장 |
 | **Archive**  | - `build/libs/*.jar` 산출물을 Jenkins 아티팩트로 보관<br>- Fingerprint 생성하여 추적 가능 | JAR 버전 관리 |
 
 <br>
@@ -142,7 +154,7 @@ pipeline {
 # 5. 실행 결과 (Pipeline Result)
 
 ### 5.1 Stage View
-Jenkins 파이프라인이 **Checkout → Build JAR → Archive** 단계까지 정상적으로 동작했으며,  
+Jenkins 파이프라인이 **Checkout → Build JAR →  Set Permission → Archive** 단계까지 정상적으로 동작했으며,  
 빌드 결과물 JAR 파일이 성공적으로 아카이빙됨.
 
 <img src="https://i.postimg.cc/2SPJFF1G/image.png" alt="Jenkins Pipeline Stage View" width="700">
