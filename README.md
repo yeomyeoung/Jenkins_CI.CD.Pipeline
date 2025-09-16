@@ -1,5 +1,13 @@
 # Jenkins CI/CD Pipeline Exploration
 
+## 0. 팀원 소개
+| 박여명 | 신기범 |
+|:------:|:------:|
+| <img src="https://avatars.githubusercontent.com/u/166470537?v=4" alt="박여명" width="150"> | <img src="https://avatars.githubusercontent.com/u/112679148?v=4" alt="신기범" width="150"> |
+| [GitHub](https://github.com/yeomyeoung) | [GitHub](https://github.com/shin-kibeom)) |
+
+---
+
 ## 1. 프로젝트 개요
 이 저장소는 **Jenkins의 주요 기능 탐구**를 목적으로 합니다.  
 단순한 빌드 자동화가 아닌, **CI/CD 파이프라인의 핵심 흐름**을 직접 구성하고 테스트하면서  
