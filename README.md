@@ -102,8 +102,9 @@ pipeline {
 | 🟩 **Build JAR** | Gradle Wrapper(`gradlew`)를 실행하여 `bootJar` 또는 `build` 태스크로 JAR 파일을 생성합니다. <br> *(테스트는 `-x test` 옵션으로 제외)* |
 | 🟨 **Archive**  | 빌드된 JAR(`build/libs/*.jar`)을 Jenkins 워크스페이스에 저장하고, `fingerprint`로 아티팩트를 추적합니다. |
 
+<br>
 
 ## 결과 화면
-![Jenkins Pipeline Flow](https://i.ibb.co/4wL3K5cn/mermaid-jenkins-Flow.png)
+![Jenkins Pipeline Flow](https://i.postimg.cc/qR9zpFqn/mermaid-jenkins-Flow.png)
 
 
