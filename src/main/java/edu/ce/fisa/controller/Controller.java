@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 	@GetMapping("/get")
 	public String getReqRes() {
-		return "get 방식 요청의 응답 데이터";
+		return "get 방식 요청의 응답 데이터 getget";
 	}
 
 	@PostMapping("/post")
